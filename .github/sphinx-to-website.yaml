@@ -1,0 +1,146 @@
+---
+  name: Generate Sphinx Docs and Commit to Website
+  on:
+      push:
+          branches:
+            # - stable
+              - sphinx-tester
+  jobs:
+    # docs:
+      # push-to-website:
+      #   runs-on: ubuntu-latest
+      #   steps:
+      #     - uses: actions/checkout@v4
+      #     - run: |
+      #         date > generated.txt
+      #         # Note: the following account information will not work on GHES
+      #         git config user.name "github-actions[bot]"
+      #         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      #         git add .
+      #         git commit -m "generated"
+      #         git push
+  
+      build-sphinx:
+          permissions:
+              contents: write
+  
+          runs-on: ubuntu-latest
+          container: ghcr.io/gem5/ubuntu-24.04_all-dependencies:latest
+          steps:
+              - name: checkout gem5
+                uses: actions/checkout@v4
+                with:
+                    repository: erin-le/gem5
+
+              - name: checkout website
+                uses: actions/checkout@v4
+                with:
+                    path: website
+              - name: debugging ls
+                run: |
+                    pwd
+                    ls
+                    echo "___"
+                    ls ..
+                    echo "___"
+                    ls website
+  
+  
+              - name: install Sphinx
+                    # | echo y
+                    #pip install sphinx
+                run: |
+                    apt-get update
+                    apt-get install python3-sphinx -y --fix-missing
+                    sphinx-build --version
+  
+              - name: Cache gem5 # remove caching in final
+                id: cache-gem5
+                uses: actions/cache@v4
+                with:
+                    path: build/ALL
+                    key: gem5.opt
+  # default Sphinx command from sphinx-action doesn't work with gem5, using a custom command
+              # - name: gem5 docker image
+              #   run: docker run -u $UID:$GID --volume .:/gem5 --rm ghcr.io/gem5/ubuntu-24.04_all-dependencies:latest
+              - name: Build gem5
+                if: steps.cache-gem5.outputs.cache-hit != 'true'
+                run: scons build/ALL/gem5.opt -j $(nproc)
+  
+              - name: Generate RST
+                run: |
+                    cd docs
+                    pwd
+                    ../build/ALL/gem5.opt gem5-sphinx-apidoc -o . ../src/python/gem5 -F -e
+  
+              - name: Generate Sphinx docs
+                # uses: ammaraskar/sphinx-action@master
+                # with:
+                #     build-command: |
+                #         SPHINXBUILD="../build/ALL/gem5.opt gem5-sphinx" make html
+                #     docs-folder: docs/
+                run: |
+                    cd docs
+                    pwd
+                    ../build/ALL/gem5.opt gem5-sphinx -M html . _build
+  
+                # SPHINXBUILD="../build/ALL/gem5.opt gem5-sphinx" make html
+  
+  
+                # run: |
+                #     python3 -m venv build/
+                #     source build/bin/activate
+                #     pip install sphinx
+                #     scons build/ALL/gem5.opt
+                #     cd docs
+                #     ../build/ALL/gem5.opt gem5-sphinx-apidoc -o . ../src/python/gem5 -F -e
+                #     SPHINXBUILD="../build/ALL/gem5.opt gem5-sphinx" make html
+  
+              - name: Add frontmatter
+                run: |
+                    cd docs
+                    python3 add-frontmatter.py
+  
+              - uses: actions/checkout@v4
+                with:
+                    repository: erin-le/gem5-website
+                    path: website
+              - name: Commit documentation changes to gem5/website repo
+                run: |
+                    git config --global --add safe.directory "$GITHUB_WORKSPACE"
+                    pwd
+                    cp -r docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs
+                    # Note: the following account information will not work on GHES
+                    cd website
+                    git switch sphinx-tester
+                    git config user.name "github-actions[bot]"
+                    git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                    git add .
+                    git commit -m "Update Sphinx documentation" -a || true
+                    git push
+                # git clone https://github.com/gem5/website.git --branch stable --single-branch stable
+                # env:
+                #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                # # git clone --single-branch --branch sphinx-tester -- https://github.com/erin-le/gem5-website.git website
+                # run: |
+                #     # mkdir website/_pages/documentation/general_docs/sphinx_docs
+                #     cp -r docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs
+                #     cd website
+                #     git config --local user.email "action@github.com"
+                #     git config --local user.name "GitHub Action"
+                #     git add .
+                #     git commit -m "Update Sphinx documentation" -a || true
+                #     git remote -v
+                #     git remote set-url origin ssh://git@github.com:erin-le/gem5.git
+                #     git remote -v
+                #     git push --set-upstream https://user:$GITHUB_TOKEN@github.com/erin-le/gem5-website sphinx-tester
+                #     # The above command will fail if no changes were present, so we ignore
+                #     # the return code.
+              # - name: Push changes
+  
+              #   uses: ad-m/github-push-action@master
+              #   with:
+              #       branch: sphinx-tester
+              #       directory: website
+              #       github_token: ${{ secrets.GITHUB_TOKEN }}
+  

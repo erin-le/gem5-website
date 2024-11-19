@@ -26,7 +26,13 @@ docs:
     - title: Using KVM
       id: using_kvm
       url: /documentation/general_docs/using_kvm
-
+    
+    - title: Sphinx Documentation
+      id: sphinx-docs
+      subitems: 
+        - page: Sphinx Docs Home
+          url: /documentation/general_docs/sphinx_docs/
+    
     - title: Doxygen
       id: doxygen-docs
       subitems:

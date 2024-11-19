@@ -31,6 +31,7 @@
                 uses: actions/checkout@v4
                 with:
                     repository: erin-le/gem5
+                    path: gem5
 
               - name: checkout website
                 uses: actions/checkout@v4
@@ -41,9 +42,14 @@
                     pwd
                     ls
                     echo "___"
+                    echo "parent directory"
                     ls ..
                     echo "___"
+                    echo "website"
                     ls website
+                    echo "___"
+                    echo "gem5"
+                    ls gem5
   
   
               - name: install Sphinx
@@ -58,18 +64,20 @@
                 id: cache-gem5
                 uses: actions/cache@v4
                 with:
-                    path: build/ALL
+                    path: gem5/build/ALL
                     key: gem5.opt
   # default Sphinx command from sphinx-action doesn't work with gem5, using a custom command
               # - name: gem5 docker image
               #   run: docker run -u $UID:$GID --volume .:/gem5 --rm ghcr.io/gem5/ubuntu-24.04_all-dependencies:latest
               - name: Build gem5
                 if: steps.cache-gem5.outputs.cache-hit != 'true'
-                run: scons build/ALL/gem5.opt -j $(nproc)
+                run: |
+                  cd gem5
+                  scons build/ALL/gem5.opt -j $(nproc)
   
               - name: Generate RST
                 run: |
-                    cd docs
+                    cd gem5/docs
                     pwd
                     ../build/ALL/gem5.opt gem5-sphinx-apidoc -o . ../src/python/gem5 -F -e
   
@@ -80,7 +88,7 @@
                 #         SPHINXBUILD="../build/ALL/gem5.opt gem5-sphinx" make html
                 #     docs-folder: docs/
                 run: |
-                    cd docs
+                    cd gem5/docs
                     pwd
                     ../build/ALL/gem5.opt gem5-sphinx -M html . _build
   
@@ -98,18 +106,18 @@
   
               - name: Add frontmatter
                 run: |
-                    cd docs
+                    cd gem5/docs
                     python3 add-frontmatter.py
   
-              - uses: actions/checkout@v4
-                with:
-                    repository: erin-le/gem5-website
-                    path: website
+              # - uses: actions/checkout@v4
+              #   with:
+              #       repository: erin-le/gem5-website
+              #       path: website
               - name: Commit documentation changes to gem5/website repo
                 run: |
                     git config --global --add safe.directory "$GITHUB_WORKSPACE"
                     pwd
-                    cp -r docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs
+                    cp -r gem5/docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs
                     # Note: the following account information will not work on GHES
                     cd website
                     git switch sphinx-tester

@@ -32,11 +32,13 @@
                 with:
                     repository: erin-le/gem5
                     path: gem5
+                    ref: develop
 
               - name: checkout website
                 uses: actions/checkout@v4
                 with:
                     path: website
+                    ref: sphinx-tester
               - name: debugging ls
                 run: |
                     pwd
@@ -74,7 +76,7 @@
                 run: |
                   cd gem5
                   scons build/ALL/gem5.opt -j $(nproc)
-  
+
               - name: Generate RST
                 run: |
                     cd gem5/docs
@@ -88,6 +90,8 @@
                 #         SPHINXBUILD="../build/ALL/gem5.opt gem5-sphinx" make html
                 #     docs-folder: docs/
                 run: |
+                    pwd
+                    ls
                     cd gem5/docs
                     pwd
                     ../build/ALL/gem5.opt gem5-sphinx -M html . _build

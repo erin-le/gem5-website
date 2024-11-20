@@ -38,7 +38,7 @@
                     path: gem5/build/ALL
                     key: gem5.opt
               - name: Build gem5
-                # if: steps.cache-gem5.outputs.cache-hit != 'true'
+                if: steps.cache-gem5.outputs.cache-hit != 'true'
                 # The entire build/ALL folder is cached, so try commenting this
                 # out to see if gem5 will build relatively quickly
                 run: |

@@ -125,7 +125,9 @@
                     cp -r gem5/docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs
                     # Note: the following account information will not work on GHES
                     cd website
-                    git switch sphinx-docs
+                    # git switch sphinx-docs
+                    pwd
+                    git branch
                     git config user.name "github-actions[bot]"
                     git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
                     git add .

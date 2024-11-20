@@ -65,7 +65,7 @@
                 run: |
                     # git config --global --add safe.directory "$GITHUB_WORKSPACE"
                     pwd
-                    if [ ! -d website/_pages/documentation/general_docs/sphinx_docs]
+                    if [ ! -d website/_pages/documentation/general_docs/sphinx_docs]; then
                       mkdir website/_pages/documentation/general_docs/sphinx_docs
                     fi
                     cp -r gem5/docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs

@@ -32,7 +32,7 @@
                 with:
                     repository: erin-le/gem5
                     path: gem5
-                    ref: develop
+                    ref: sphinx-website
 
               - name: checkout website
                 uses: actions/checkout@v4

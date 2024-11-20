@@ -119,7 +119,7 @@
               #       path: website
               - name: Commit documentation changes to gem5/website repo
                 run: |
-                    git config --global --add safe.directory "$GITHUB_WORKSPACE"
+                    # git config --global --add safe.directory "$GITHUB_WORKSPACE"
                     pwd
                     mkdir website/_pages/documentation/general_docs/sphinx_docs
                     cp -r gem5/docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs

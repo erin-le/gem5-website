@@ -62,13 +62,12 @@
                     cd gem5/docs
                     python3 add-frontmatter.py
               - name: Commit documentation changes to gem5/website repo
+                continue-on-error: true
                 run: |
                     # git config --global --add safe.directory "$GITHUB_WORKSPACE"
                     pwd
                     rm -r website/_pages/documentation/general_docs/sphinx_docs
-                    if [ ! -d website/_pages/documentation/general_docs/sphinx_docs]; then
-                      mkdir website/_pages/documentation/general_docs/sphinx_docs
-                    fi
+                    mkdir website/_pages/documentation/general_docs/sphinx_docs
                     cp -r gem5/docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs
                     # Note: the following account information will not work on GHES
                     cd website

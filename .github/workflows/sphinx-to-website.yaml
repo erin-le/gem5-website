@@ -70,6 +70,7 @@
                     mkdir website/_pages/documentation/general_docs/sphinx_docs
                     cp -r gem5/docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs
                     # Note: the following account information will not work on GHES
+                    cat gem5/docs/add-frontmatter.py
                     cd website
                     cat _pages/documentation/general_docs/sphinx_docs/_modules/index.html
                     # git switch sphinx-docs

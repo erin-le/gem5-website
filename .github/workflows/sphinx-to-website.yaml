@@ -63,7 +63,7 @@
                     mkdir website/_pages/documentation/general_docs/sphinx_docs
                     cp -r gem5/docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs
                     cd website
-                    python3 add-frontmatter.py
+                    python3 add-sphinx-docs.py
               - name: Commit documentation changes to gem5/website repo
                 continue-on-error: true
                 run: |

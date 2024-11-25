@@ -63,6 +63,8 @@
                     mkdir website/_pages/documentation/general_docs/sphinx_docs
                     cp -r gem5/docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs
                     cd website
+                    cat add-sphinx-docs.py
+                    ls
                     python3 add-sphinx-docs.py
               - name: Commit documentation changes to gem5/website repo
                 continue-on-error: true
@@ -70,7 +72,7 @@
                     # git config --global --add safe.directory "$GITHUB_WORKSPACE"
                     pwd
                     # Note: the following account information will not work on GHES
-                    cat gem5/docs/add-frontmatter.py
+                    cat website/add-sphinx-docs.py
                     cd website
                     cat _pages/documentation/general_docs/sphinx_docs/_modules/index.html
                     # git switch sphinx-docs

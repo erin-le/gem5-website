@@ -63,6 +63,7 @@
                     mkdir website/_pages/documentation/general_docs/sphinx_docs
                     cp -r gem5/docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs
                     cd website
+                    cat _pages/documentation/general_docs/sphinx_docs/_modules/index.html
                     ls
                     cat add-sphinx-docs.py
                     python3 add-sphinx-docs.py
@@ -72,7 +73,7 @@
                     # git config --global --add safe.directory "$GITHUB_WORKSPACE"
                     pwd
                     # Note: the following account information will not work on GHES
-                    cat website/add-sphinx-docs.py
+                    # cat website/add-sphinx-docs.py
                     cd website
                     cat _pages/documentation/general_docs/sphinx_docs/_modules/index.html
                     # git switch sphinx-docs

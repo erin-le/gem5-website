@@ -1,8 +1,10 @@
 ---
   name: Generate Sphinx Docs and Commit to Website
-  on:
-    schedule:
-      - cron: 0 13 * * 1 # run it once a week
+    on:
+      push:
+          branches:
+              - sphinx-tester
+
   jobs:
       build-sphinx:
           permissions:

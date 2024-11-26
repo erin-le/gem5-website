@@ -1,10 +1,8 @@
 ---
   name: Generate Sphinx Docs and Commit to Website
   on:
-      push:
-          branches: # This needs to be changed to a time 
-              # - stable
-              - sphinx-tester
+    schedule:
+      - cron: 0 13 * * 1 # run it once a week
   jobs:
       build-sphinx:
           permissions:
@@ -16,9 +14,9 @@
               - name: checkout gem5
                 uses: actions/checkout@v4
                 with:
-                    repository: erin-le/gem5
+                    repository: gem5/gem5
                     path: gem5
-                    ref: sphinx-website
+                    ref: stable
 
               - name: checkout website
                 uses: actions/checkout@v4
@@ -31,14 +29,14 @@
                     apt-get install python3-sphinx -y --fix-missing
                     sphinx-build --version
   
-              - name: Cache gem5 # remove caching in final
+              - name: Cache gem5 # remove caching in final (?)
                 id: cache-gem5
                 uses: actions/cache@v4
                 with:
                     path: gem5/build/ALL
                     key: gem5.opt
               - name: Build gem5
-                if: steps.cache-gem5.outputs.cache-hit != 'true'
+                # if: steps.cache-gem5.outputs.cache-hit != 'true'
                 # The entire build/ALL folder is cached, so try commenting this
                 # out to see if gem5 will build relatively quickly
                 run: |
@@ -47,15 +45,11 @@
               - name: Generate RST
                 run: |
                     cd gem5/docs
-                    pwd
                     ../build/ALL/gem5.opt gem5-sphinx-apidoc -o . ../src/python/gem5 -F -e
   
               - name: Generate Sphinx docs
                 run: |
-                    pwd
-                    ls
                     cd gem5/docs
-                    pwd
                     ../build/ALL/gem5.opt gem5-sphinx -M html . _build
               - name: Add frontmatter
                 run: |
@@ -63,21 +57,12 @@
                     mkdir website/_pages/documentation/general_docs/sphinx_docs
                     cp -r gem5/docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs
                     cd website
-                    cat _pages/documentation/general_docs/sphinx_docs/_modules/index.html
-                    ls
-                    cat add-sphinx-docs.py
                     python3 add-sphinx-docs.py
               - name: Commit documentation changes to gem5/website repo
                 continue-on-error: true
                 run: |
-                    # git config --global --add safe.directory "$GITHUB_WORKSPACE"
-                    pwd
                     # Note: the following account information will not work on GHES
-                    # cat website/add-sphinx-docs.py
                     cd website
-                    cat _pages/documentation/general_docs/sphinx_docs/_modules/index.html
-                    # git switch sphinx-docs
-                    pwd
                     git branch
                     git config user.name "github-actions[bot]"
                     git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

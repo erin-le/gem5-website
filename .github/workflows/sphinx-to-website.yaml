@@ -1,8 +1,9 @@
 ---
   name: Generate Sphinx Docs and Commit to Website
-    on:
+  on:
       push:
-          branches:
+          branches: # This needs to be changed to a time 
+              # - stable
               - sphinx-tester
 
   jobs:

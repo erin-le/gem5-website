@@ -29,9 +29,7 @@ docs:
     
     - title: Sphinx Documentation
       id: sphinx-docs
-      subitems: 
-        - page: Sphinx Docs Home
-          url: /documentation/general_docs/stdlib_api
+      url: /documentation/general_docs/stdlib_api
     
     - title: Doxygen
       id: doxygen-docs

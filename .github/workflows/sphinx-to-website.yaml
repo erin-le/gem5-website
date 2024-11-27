@@ -62,17 +62,11 @@
                     cd website
                     python3 add-sphinx-docs.py
               - name: Commit documentation changes to gem5/website repo
-                continue-on-error: true
-                run: |
-                    # Note: the following account information will not work on GHES
-                    cd website
-                    git config --local user.email "action@github.com"
-                    git config --local user.name "GitHub Action"
-                    git add .
-                    git commit -m "Update Sphinx documentation" -a || true
-              - name: Push changes
-                uses: ad-m/github-push-action@master
+                uses: EndBug/add-and-commit@v9
                 with:
-                    branch: stable
-                    directory: website
-                    github_token: ${{ secrets.GITHUB_TOKEN }}
+                    add: 'website'
+                    author_name: Github Action
+                    author_email: action@github.com
+                    message: "Update Sphinx documentation"
+
+

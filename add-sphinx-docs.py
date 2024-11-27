@@ -23,7 +23,7 @@ with open(f"./_pages/documentation/general_docs/sphinx_docs/_modules/index.html"
     f.write("---\n")
     f.write(f'title: "Sphinx Documentation"\n')
     f.write("parent: sphinx-docs\n")
-    f.write(f"permalink: /documentation/general_docs/sphinx_docs/index.html\n")
+    f.write(f"permalink: documentation/general_docs/stdlib_api\n")
     f.write("---\n")
 
     for index, line in enumerate(html):

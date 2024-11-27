@@ -19,7 +19,7 @@
                 with:
                     repository: gem5/gem5
                     path: gem5
-                    ref: stable
+                    ref: develop
 
               - name: checkout website
                 uses: actions/checkout@v4
@@ -66,9 +66,13 @@
                 run: |
                     # Note: the following account information will not work on GHES
                     cd website
-                    git branch
-                    git config user.name "github-actions[bot]"
-                    git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                    git config --local user.email "action@github.com"
+                    git config --local user.name "GitHub Action"
                     git add .
                     git commit -m "Update Sphinx documentation" -a || true
-                    git push
+              - name: Push changes
+                uses: ad-m/github-push-action@master
+                with:
+                branch: stable
+                directory: website
+                github_token: ${{ secrets.GITHUB_TOKEN }}

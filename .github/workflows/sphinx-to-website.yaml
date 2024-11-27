@@ -73,6 +73,6 @@
               - name: Push changes
                 uses: ad-m/github-push-action@master
                 with:
-                branch: stable
-                directory: website
-                github_token: ${{ secrets.GITHUB_TOKEN }}
+                    branch: stable
+                    directory: website
+                    github_token: ${{ secrets.GITHUB_TOKEN }}

@@ -68,5 +68,6 @@
                     author_name: Github Action
                     author_email: action@github.com
                     message: "Update Sphinx documentation"
+                    cwd: './website'
 
 

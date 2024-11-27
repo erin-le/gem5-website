@@ -23,9 +23,8 @@ with open(f"./_pages/documentation/general_docs/sphinx_docs/_modules/index.html"
     f.write("---\n")
     f.write(f'title: "Sphinx Documentation"\n')
     f.write("parent: sphinx-docs\n")
-    f.write(f"permalink: /documentation/general_docs/sphinx_docs/index.html\n")
+    f.write(f"permalink: /documentation/general_docs/stdlib_api/\n")
     f.write("---\n")
-
     for index, line in enumerate(html):
         modified_line = None
 
@@ -78,7 +77,7 @@ for filename in os.listdir("./_pages/documentation/general_docs/sphinx_docs"):
             f.write(f'title: "{filename}"\n')
             f.write("parent: sphinx-docs\n")
             f.write(
-                f"permalink: /documentation/general_docs/sphinx_docs/{filename}\n"
+                f"permalink: /documentation/general_docs/stdlib_api/{filename}\n"
             )
             f.write("---\n")
             html = remove_searchbar(html)

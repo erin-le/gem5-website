@@ -64,10 +64,8 @@
               - name: Commit documentation changes to gem5/website repo
                 uses: EndBug/add-and-commit@v9
                 with:
-                    add: '.'
+                    add: './_pages/documentation/general_docs/sphinx_docs'
                     author_name: Github Action
                     author_email: action@github.com
                     message: "Update Sphinx documentation"
                     cwd: './website'
-
-

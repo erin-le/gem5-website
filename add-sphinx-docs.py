@@ -29,6 +29,7 @@ import os
 search_bar_lines = []
 html = []
 
+
 def remove_searchbar(html):
     search_flag = False
     for index, line in enumerate(html):
@@ -36,12 +37,18 @@ def remove_searchbar(html):
             search_flag = True
         if search_flag == True:
             html[index] = ""
-        if '<script>document.getElementById(\'searchbox\').style.display = "block"</script>' in line:
+        if (
+            "<script>document.getElementById('searchbox').style.display = \"block\"</script>"
+            in line
+        ):
             search_flag = False
     return html
 
 
-with open(f"./_pages/documentation/general_docs/sphinx_docs/_modules/index.html", "r+") as f:
+with open(
+    f"./_pages/documentation/general_docs/sphinx_docs/_modules/index.html",
+    "r+",
+) as f:
     html = f.readlines()
     f.seek(0, 0)
     f.truncate(0)
@@ -89,14 +96,16 @@ with open(f"./_pages/documentation/general_docs/sphinx_docs/_modules/index.html"
         html[index] = modified_line
 
     html = remove_searchbar(html)
-    
+
     for line in html:
         f.write(line)
 
 
 for filename in os.listdir("./_pages/documentation/general_docs/sphinx_docs"):
     if filename.startswith("gem5"):
-        with open(f"./_pages/documentation/general_docs/sphinx_docs/{filename}", "r+") as f:
+        with open(
+            f"./_pages/documentation/general_docs/sphinx_docs/{filename}", "r+"
+        ) as f:
             html = f.readlines()
             f.seek(0, 0)
             f.truncate(0)
@@ -108,6 +117,6 @@ for filename in os.listdir("./_pages/documentation/general_docs/sphinx_docs"):
             )
             f.write("---\n")
             html = remove_searchbar(html)
-            
+
             for line in html:
                 f.write(line)

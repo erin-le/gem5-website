@@ -28,17 +28,7 @@
                     apt-get update
                     apt-get install python3-sphinx -y --fix-missing
                     sphinx-build --version
-  
-              - name: Cache gem5 # remove caching in final (?)
-                id: cache-gem5
-                uses: actions/cache@v4
-                with:
-                    path: gem5/build/ALL
-                    key: gem5.opt
               - name: Build gem5
-                # if: steps.cache-gem5.outputs.cache-hit != 'true'
-                # The entire build/ALL folder is cached, so try commenting this
-                # out to see if gem5 will build relatively quickly
                 run: |
                   cd gem5
                   scons build/ALL/gem5.opt -j $(nproc)
@@ -61,7 +51,7 @@
               - name: Commit documentation changes to gem5/website repo
                 uses: EndBug/add-and-commit@v9
                 with:
-                    add: '.'
+                    add: './_pages/documentation/general_docs/sphinx_docs'
                     author_name: Github Action
                     author_email: action@github.com
                     message: "Update Sphinx documentation"

@@ -21,7 +21,7 @@ of the test. For example, the following command can be used for testing a
 protocol:
 
 ```
-./build/X86/gem5.fast ./configs/example/ruby_random_test.py
+./build/ALL/gem5.fast ./configs/example/ruby_random_test.py
 ```
 
 Though one can specify many different options to the random tester, some of

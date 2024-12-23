@@ -50,10 +50,6 @@ jobs:
                   ../build/ALL/gem5.opt gem5-sphinx -M html . _build
             - name: Add frontmatter
               run: |
-                  if [ -d "website/_pages/documentation/general_docs/sphinx_docs" ]; then
-                    rm -r website/_pages/documentation/general_docs/sphinx_docs
-                    mkdir website/_pages/documentation/general_docs/sphinx_docs
-                  fi
                   cp -r gem5/docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs
                   cd website
                   python3 add-sphinx-docs.py
@@ -66,4 +62,3 @@ jobs:
                   author_email: action@github.com
                   message: Update Sphinx documentation
                   cwd: ./website
-                  

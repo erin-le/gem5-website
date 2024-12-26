@@ -71,3 +71,4 @@ jobs:
                   add-paths: |
                             ./_pages/documentation/general_docs/sphinx_docs
                   assignees: erin-le
+                  delete-branch: true

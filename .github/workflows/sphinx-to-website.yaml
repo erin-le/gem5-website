@@ -63,6 +63,6 @@ jobs:
             - name: Create Pull Request
               uses: peter-evans/create-pull-request@v7
               with:
-              commit-message: Update Sphinx Documentation
-              add-paths: |
-                        website/_pages/documentation/general_docs/sphinx_docs
+                  commit-message: Update Sphinx Documentation
+                  add-paths: |
+                            website/_pages/documentation/general_docs/sphinx_docs

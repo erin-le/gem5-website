@@ -8,6 +8,7 @@ jobs:
     build-sphinx:
         permissions:
             contents: write
+            pull-requests: write
 
         runs-on: ubuntu-latest
         container: ghcr.io/gem5/ubuntu-24.04_all-dependencies:latest
@@ -67,3 +68,4 @@ jobs:
                   path: ./website
                   add-paths: |
                             ./_pages/documentation/general_docs/sphinx_docs
+                  assignees: erin-le

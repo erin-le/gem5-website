@@ -59,6 +59,7 @@ jobs:
                   sed -i '/sphinx-quickstart on/d' website/_pages/documentation/general_docs/sphinx_docs/_sources/index.rst.txt
                   cd website
                   python3 add-sphinx-docs.py
+                  git config --global --add safe.directory "$GITHUB_WORKSPACE"
               continue-on-error: true
             - name: Create Pull Request
               uses: peter-evans/create-pull-request@v7

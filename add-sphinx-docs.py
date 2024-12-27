@@ -69,7 +69,7 @@ with open(
                 in line
             ):
                 modified_line = (
-                    '<li><a href="./index.html">Documentation overview</a><ul>'
+                    '<li><a href=".">Documentation overview</a><ul>'
                 )
             else:
                 # For links to the other documentation pages from index.html, replace the `.` in the path with `/`. This makes things more consistent and allows links from index.html to a Sphinx page and links between two Sphinx pages to work.
@@ -87,9 +87,7 @@ with open(
 
         elif '<h1 class="logo"><a href="../index.html">gem5</a></h1>' in line:
             print("../index.html switched to ./index.html")
-            modified_line = (
-                '<h1 class="logo"><a href="./index.html">gem5</a></h1>'
-            )
+            modified_line = '<h1 class="logo"><a href=".">gem5</a></h1>'
         else:
             modified_line = line
 
@@ -113,10 +111,21 @@ for filename in os.listdir("./_pages/documentation/general_docs/sphinx_docs"):
             f.write(f'title: "{filename}"\n')
             f.write("parent: sphinx-docs\n")
             f.write(
-                f"permalink: /documentation/general_docs/sphinx_docs/{filename}\n"
+                f"permalink: /documentation/general_docs/stdlib_api/{filename}\n"
             )
             f.write("---\n")
             html = remove_searchbar(html)
 
             for line in html:
-                f.write(line)
+                if (
+                    '<li><a href="index.html">Documentation overview</a><ul>'
+                    in line
+                ):
+                    f.write('<li><a href=".">Documentation overview</a><ul>')
+                elif (
+                    '<h1 class="logo"><a href="index.html">gem5</a></h1>'
+                    in line
+                ):
+                    f.write('<h1 class="logo"><a href=".">gem5</a></h1>')
+                else:
+                    f.write(line)

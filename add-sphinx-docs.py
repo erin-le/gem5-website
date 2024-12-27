@@ -113,7 +113,7 @@ for filename in os.listdir("./_pages/documentation/general_docs/sphinx_docs"):
             f.write(f'title: "{filename}"\n')
             f.write("parent: sphinx-docs\n")
             f.write(
-                f"permalink: /documentation/general_docs/sphinx_docs/{filename}\n"
+                f"permalink: /documentation/general_docs/stdlib_api/{filename}\n"
             )
             f.write("---\n")
             html = remove_searchbar(html)

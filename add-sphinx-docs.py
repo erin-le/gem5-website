@@ -123,7 +123,7 @@ for filename in os.listdir("./_pages/documentation/general_docs/sphinx_docs"):
                 ):
                     f.write('<li><a href=".">Documentation overview</a><ul>')
                 elif (
-                    '<h1 class="logo"><a href="../index.html">gem5</a></h1>'
+                    '<h1 class="logo"><a href="index.html">gem5</a></h1>'
                     in line
                 ):
                     f.write('<h1 class="logo"><a href=".">gem5</a></h1>')

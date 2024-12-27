@@ -56,7 +56,7 @@ with open(
     f.write("---\n")
     f.write(f'title: "Sphinx Documentation"\n')
     f.write("parent: sphinx-docs\n")
-    f.write(f"permalink: documentation/general_docs/stdlib_api\n")
+    f.write(f"permalink: documentation/general_docs/stdlib_api/\n")
     f.write("---\n")
 
     for index, line in enumerate(html):

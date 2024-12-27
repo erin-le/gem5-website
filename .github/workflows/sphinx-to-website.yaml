@@ -8,6 +8,7 @@ jobs:
     build-sphinx:
         permissions:
             contents: write
+            pull-requests: write
 
         runs-on: ubuntu-latest
         container: ghcr.io/gem5/ubuntu-24.04_all-dependencies:latest
@@ -37,7 +38,6 @@ jobs:
               run: |
                   cd gem5/docs
                   ../build/ALL/gem5.opt gem5-sphinx-apidoc -o . ../src/python/gem5 -F -e
-
             - name: Generate Sphinx docs
               run: |
                   cd gem5/docs
@@ -49,15 +49,20 @@ jobs:
                   fi
                   mkdir website/_pages/documentation/general_docs/sphinx_docs
                   cp -r gem5/docs/_build/html/* website/_pages/documentation/general_docs/sphinx_docs
+                  # The next line deletes a timestamp that is sometimes the only change from the last commit
+                  sed -i '/sphinx-quickstart on/d' website/_pages/documentation/general_docs/sphinx_docs/_sources/index.rst.txt
                   cd website
                   python3 add-sphinx-docs.py
               continue-on-error: true
-            - name: Commit documentation changes to gem5/website repo
-              uses: EndBug/add-and-commit@v9
+            - name: Create Pull Request
+              uses: peter-evans/create-pull-request@v7
               with:
-                  add: ./_pages/documentation/general_docs/sphinx_docs
-                  author_name: Github Action
-                  author_email: action@github.com
-                  message: Update Sphinx documentation
-                  cwd: ./website
-
+                  title: Update Sphinx Documentation
+                  body: Automated update to Sphinx documentation, using the Generate Sphinx Docs and Commit to Website workflow in gem5/website.
+                  commit-message: Update Sphinx Documentation
+                  path: ./website
+                  add-paths: |
+                      ./_pages/documentation/general_docs/sphinx_docs
+                  assignees: erin-le
+                  delete-branch: true
+                  branch: update-sphinx-docs
